@@ -1,17 +1,22 @@
 #!/usr/bin/python3
-# sql alchemy awesome
-from sqlalchemy import Column, Integer, String
-from sqlalchemy import ForeignKey
+"""This module contains a class that defines the City class.
+"""
+from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 from model_state import Base, State
-from sqlalchemy.orm import relationship
 
 
 class City(Base):
-    # creates city
+    """Definition of a City class.
+    Args:
+        Base : base class.
+    """
     __tablename__ = 'cities'
 
-    id = Column(Integer, primary_key=True)
-    name = Column(String(128), nullable=False)
-    state_id = Column(Integer, ForeignKey('states.id'), nullable=False)
+    id = Column('id', Integer, nullable=False,
+                autoincrement=True, unique=True, primary_key=True)
+    name = Column('name', String(128), nullable=False)
+    state_id = Column('state_id', Integer, ForeignKey('states.id'),
+                      nullable=False)
+    state = relationship("State")
 

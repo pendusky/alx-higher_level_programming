@@ -1,15 +1,19 @@
 #!/usr/bin/python3
-# sql alchemy awesome
+"""This module contains a class that defines the State class.
+"""
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
 
 Base = declarative_base()
 
 
 class State(Base):
-    # creates state
+    """Definition of a State class.
+    Args:
+        Base : base class.
+    """
     __tablename__ = 'states'
 
-    id = Column(Integer, primary_key=True, nullable=False)
-    name = Column(String(128), nullable=False)
+    id = Column('id', Integer, nullable=False,
+                autoincrement=True, unique=True, primary_key=True)
+    name = Column('name', String(128), nullable=False)
