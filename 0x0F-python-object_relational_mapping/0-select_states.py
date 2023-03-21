@@ -1,49 +1,27 @@
 #!/usr/bin/python3
-"""This module contains functions that lists all states from
-    a specific database.
-"""
 import MySQLdb
 import sys
 
+if __name__ == '__main__':
+    username = sys.argv[1]
+    password = sys.argv[2]
+    db_name = sys.argv[3]
 
-def main_method():
-    """It receives the input parameters and sends them to the
-        corresponding methods.
-    """
-    args = sys.argv
+    # Connect to MySQL server
+    db = MySQLdb.connect(host="localhost", port=3306,
+                         user=username, passwd=password, db=db_name)
 
-    host = "localhost"
-    port = 3306
-    user = args[1]
-    password = args[2]
-    database = args[3]
-
-    db = connect_to_database(host, port, user, password, database)
+    # Create a cursor object
     cur = db.cursor()
 
-    query(cur)
+    # Execute query to select all states from the states table
+    cur.execute("SELECT * FROM states ORDER BY states.id ASC")
 
-    cur.close()
-    db.close()
-
-
-def connect_to_database(host, port, user, password, database):
-    """Connect to a specific database.
-    Returns:
-        db: database object.
-    """
-    db = MySQLdb.connect(host=host, port=port, passwd=password,
-                         user=user, db=database)
-    return db
-
-
-def query(cur):
-    """Performs a "SELECT" query that lists all states.
-    """
-    cur.execute("""SELECT * FROM states ORDER BY id ASC""")
-    for row in cur.fetchall():
+    # Fetch all the rows and print them one by one
+    rows = cur.fetchall()
+    for row in rows:
         print(row)
 
-
-if __name__ == "__main__":
-    main_method()
+    # Close cursor and database connection
+    cur.close()
+    db.close()
